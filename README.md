@@ -1,1 +1,59 @@
-# csc2106-IoT
+# CSC2106 - IoT
+
+## Setting Up the Thread Border Router on Raspberry Pi 4
+
+This guide outlines the steps to set up an **OpenThread Border Router (OTBR)** on a **Raspberry Pi 4**.
+
+### **Prerequisites**
+- Raspberry Pi 4 running **Raspberry Pi OS**.
+- A **Thread Radio Co-Processor (RCP)** (e.g., Nordic nRF52840 Dongle).
+- Internet connectivity (via `wlan0` or `eth0`).
+
+## **Installation Steps**
+
+### **Step 1: Clone and Install OTBR**
+```bash
+git clone https://github.com/openthread/ot-br-posix.git --depth 1
+cd ot-br-posix
+./script/bootstrap
+INFRA_IF_NAME=wlan0 ./script/setup  # For Wi-Fi
+INFRA_IF_NAME=eth0 ./script/setup   # For Ethernet
+```
+
+### **Step 2: Start OTBR Service and Reboot**
+```bash
+sudo service otbr-agent status  # Check if OTBR service is running
+sudo reboot
+```
+
+### **Step 3: Flash RCP Firmware**
+- Flash the **RCP sample code** onto the **Thread dongle**.
+- Unplug the dongle, then plug it back into the Raspberry Pi 4.
+
+### **Step 4: Restart OTBR Service**
+```bash
+sudo service otbr-agent restart
+sudo service otbr-agent status
+```
+
+### **Step 5: Initialize the Thread Network**
+```bash
+sudo ot-ctl dataset init new
+sudo ot-ctl dataset commit active
+sudo ot-ctl ifconfig up
+sudo ot-ctl thread start
+```
+
+### **Step 6: Verify Network Configuration**
+```bash
+sudo ot-ctl state          # Check OTBR state (should be 'leader')
+sudo ot-ctl netdata show   # Display Thread network data
+sudo ot-ctl ipaddr         # List assigned IP addresses
+```
+
+## **Additional Resources**
+For more details, refer to the official OpenThread documentation:
+[OpenThread Border Router Setup Guide](https://openthread.io/codelabs/openthread-border-router#5)
+
+
+
