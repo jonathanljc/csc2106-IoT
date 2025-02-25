@@ -51,6 +51,30 @@ sudo ot-ctl netdata show   # Display Thread network data
 sudo ot-ctl ipaddr         # List assigned IP addresses
 ```
 
+### **Step 7: OpenThread CLI**
+
+On leader node (Thread Border Router), run this command to check your leader dataset.
+```bash
+sudo ot-ctl dataset active
+```
+On End Device node, run the respective command based on your dataset must be same as your leader dataset.
+```bash
+ot dataset channel 19
+ot dataset panid 0x001e
+ot dataset extpanid 820a67d9ce258658
+ot dataset networkname OpenThread-001e
+ot dataset networkkey be5c7f0c38d3da24716efe0770567f77
+ot dataset pskc 1d88795a53617bf0fa29dd4de897f450
+ot dataset securitypolicy 672 onrc 0
+ot dataset commit active
+ot ifconfig up
+ot thread start
+```
+Check Status:
+```bash
+ot state
+```
+
 ## **Additional Resources**
 For more details, refer to the official OpenThread documentation:
 [OpenThread Border Router Setup Guide](https://openthread.io/codelabs/openthread-border-router#5)
