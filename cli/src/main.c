@@ -16,7 +16,7 @@ static const char UDP_DEST_ADDR[] = "fd97:b3f:1a22:1:7ef1:9f0f:c300:f9fc";  // I
 
 static const uint16_t UDP_PORT = 1234;  // Choose a suitable UDP port
 
-#define UDP_PAYLOAD "Hello, OpenThread!"
+#define UDP_PAYLOAD "{temp: 25, humidity: 50}"  // Payload to send over UDP
 
 static otInstance *instance;
 static otUdpSocket udpSocket;
@@ -91,7 +91,7 @@ void udpSend(otInstance *instance)
 		while (1)
 		{
 			udpSend(instance);
-			k_sleep(K_SECONDS(2)); // Send a message every 10 seconds
+			k_sleep(K_SECONDS(2)); // Send a message every 2 seconds
 		}
 	
 		return 0;

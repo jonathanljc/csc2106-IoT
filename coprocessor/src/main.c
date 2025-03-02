@@ -21,6 +21,8 @@ LOG_MODULE_REGISTER(coprocessor_sample, CONFIG_OT_COPROCESSOR_LOG_LEVEL);
 
 int main(void)
 {
+	// TODO: Add udp receiver/listener code and then forward to Home Assistant
+	
 	LOG_INF(WELCOME_TEXT);
 
 #if defined(CONFIG_RCP_SAMPLE_HCI)
