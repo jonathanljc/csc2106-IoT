@@ -2,5 +2,8 @@
     "nrf-connect.applications": [
         "${workspaceFolder}\\cli",
         "${workspaceFolder}\\coprocessor"
-    ]
+    ],
+    "files.associations": {
+        "udp.h": "c"
+    }
 }
