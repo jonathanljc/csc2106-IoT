@@ -1,0 +1,37 @@
+import socket
+import paho.mqtt.client as mqtt
+import json
+import re
+import random
+
+UDP_IP = "::"
+UDP_PORT = 1234
+
+MQTT_BROKER = "localhost"
+MQTT_TOPIC = "thread/sensor"
+
+sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
+sock.bind((UDP_IP, UDP_PORT))
+
+client = mqtt.Client()
+client.connect(MQTT_BROKER, 1883, 60)
+client.loop_start()
+
+print("Listening")
+
+while True:
+	data, addr = sock.recvfrom(1024)
+	message = data.decode("utf-8").strip()
+	print(f"Received from {addr}: {message}")
+	
+	match = re.search(r"Temp:\s(\d+).*Humid:\s*(\d+)", message)
+	if match:
+		# remove the + random when using actual sensor data
+		temp = int(match.group(1)) + random.randint(0, 10)
+		humid = int(match.group(2)) + random.randint(0, 50)
+
+		mqtt_payload = json.dumps({"temp": temp, "humid": humid})
+		print(f"Publishing: {mqtt_payload}")
+
+		client.publish(MQTT_TOPIC, mqtt_payload)
+
