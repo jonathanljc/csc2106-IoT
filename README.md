@@ -123,16 +123,31 @@ sudo ot-ctl ipaddr         # List assigned IP addresses
     - Example: `ot udp send fd97:b3f:1a22:1:7ef1:9f0f:c300:f9fc 1234 'hello'`
 5. The message should be received in the OTBR netcat
 
-## **Future Programming**
-Need to create an application that takes in sensor data (or just hardcoded data for now) and sends a UDP message to the OTBR. Then, OTBR takes the message and sends to Home Assistant.
-2 approaches is possible for the sensor data application in nodes:
-1. Modify the `main.c` under `cli/src` to send the data
-    - Concern: Not sure if can just change like that, whether there are dependencies in other .c files in the `cli` folder
-2. Create a new application using the VSCode nRF Connect extension "Create a new applcation"
-    - Concern: Need to figure out how to create the application AND include the openthread configurations. For example, the configurations in `cli/prj.conf`
-
-Once the application has been written, same steps as installing cli application
-    -> Build then add the .hex file in Programmer then "Write", etc
+## **Installing applcations on OTBR Pi**
+1. Download the udp_to_mqtt.py from the repository
+2. Install, run and configure the Home Assistant container with Docker
+    - Install docker with `sudo apt install docker.io`
+    - Download and Run the Home Assistant image
+    ```bash
+    sudo docker run -d \
+    --name homeassistant \
+    --privileged \
+    --restart=unless-stopped \
+    -e TZ=Asia/Singapore \
+    -v /dockerHA:/config \
+    -v /run/dbus:/run/dbus:ro \
+    --network=host \
+    ghcr.io/home-assistant/home-assistant:stable
+    ```
+    - Download the `configuration.yaml` and replace it in `/dockerHA/configuration` in your OTBR Pi
+    - Restart the container for the changes to take affect with `sudo docker restart homeassistant`
+3. Install, run and configure the MQTT broker
+    - Install with `sudo apt install mosquitto mosquitto-clients -y`
+    - Download the `mosquitto.conf` from the repository and replace the one in `/etc/mosquitto/mosquitto.conf`
+    - Run the broker using `sudo mosquitto -d -c "/etc/mosquitto/mosquitto.conf"`
+4. Run the `udp_to_mqtt.py` script
+    - Would need to install `paho-mqtt` with `sudo apt install python3-paho-mqtt`
+5. Open a browser in another machine (WITHIN THE SAME NETWORK) and access the Home Assistant dashboard with `http://<PI IP>:8123`
 
 ## **Additional Resources**
 For more details, refer to the official OpenThread documentation:
