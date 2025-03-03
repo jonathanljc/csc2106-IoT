@@ -5,6 +5,8 @@
  */
 
 #include <zephyr/kernel.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <zephyr/logging/log.h>
 #include <openthread/platform/radio.h>
 #include <openthread/thread.h>
@@ -12,11 +14,21 @@
 #include <zephyr/drivers/uart.h>
 #include <zephyr/usb/usb_device.h>
 
-static const char UDP_DEST_ADDR[] = "fd97:b3f:1a22:1:7ef1:9f0f:c300:f9fc";  // IPv6 Address of OTBR
+static const char UDP_DEST_ADDR[] = "fd40:3477:6aa4:1:9da4:1bf2:475e:efe9";  // IPv6 Address of OTBR
 
 static const uint16_t UDP_PORT = 1234;  // Choose a suitable UDP port
 
-#define UDP_PAYLOAD "{temp: 25, humidity: 50}"  // Payload to send over UDP
+static char udpPayload[50];  // Payload to send over UDP
+
+void generateRandomPayload(void)
+{
+    float temp = 20.0 + (rand() % 1500) / 100.0;  // Random temperature between 20.0 and 35.0
+    float humid = 50.0 + (rand() % 5000) / 100.0; // Random humidity between 50.0 and 100.0
+	snprintf(udpPayload, sizeof(udpPayload), "Temp: 25, Humid: 50");
+
+	// TODO: make this randomise work (currently got error), but when have actual sensor, don't even need it
+	// snprintf(udpPayload, sizeof(udpPayload), "Temp: %.2f, Humid: %.2f", temp, humid);
+}
 
 static otInstance *instance;
 static otUdpSocket udpSocket;
@@ -29,6 +41,8 @@ void udpSend(otInstance *instance)
     otMessage *message;
     otMessageInfo messageInfo;
 
+	generateRandomPayload();
+
     // Create a new message
     message = otUdpNewMessage(instance, NULL);
     if (message == NULL)
@@ -38,7 +52,7 @@ void udpSend(otInstance *instance)
     }
 
     // Append the payload to the message
-    error = otMessageAppend(message, UDP_PAYLOAD, sizeof(UDP_PAYLOAD));
+    error = otMessageAppend(message, udpPayload, sizeof(udpPayload));
     if (error != OT_ERROR_NONE)
     {
         LOG_ERR("Failed to append message: %d", error);
@@ -59,23 +73,9 @@ void udpSend(otInstance *instance)
 		otMessageFree(message);
 	}
 }
-
-#define WELLCOME_TEXT \
-	"\n\r"\
-	"\n\r"\
-	"OpenThread Command Line Interface is now running.\n\r" \
-	"Use the 'ot' keyword to invoke OpenThread commands e.g. " \
-	"'ot thread start.'\n\r" \
-	"For the full commands list refer to the OpenThread CLI " \
-	"documentation at:\n\r" \
-	"https://github.com/openthread/openthread/blob/master/src/cli/README.md\n\r"
-
-
 	
-	int main(void)
+int main(void)
 	{
-		LOG_INF(WELLCOME_TEXT);
-	
 		// Initialize OpenThread instance
 		instance = otInstanceInitSingle();
 		if (instance == NULL)
@@ -84,6 +84,22 @@ void udpSend(otInstance *instance)
 			return -1;
 		}
 	
+		// Bring up the IPv6 interface
+		otError error = otIp6SetEnabled(instance, true);
+		if (error != OT_ERROR_NONE)
+		{
+			LOG_ERR("Failed to bring up IPv6 interface: %d", error);
+			return -1;
+		}
+
+		// Start the Thread network
+		error = otThreadSetEnabled(instance, true);
+		if (error != OT_ERROR_NONE)
+		{
+			LOG_ERR("Failed to start Thread network: %d", error);
+			return -1;
+		}
+
 		// Initialize the UDP socket
 		memset(&udpSocket, 0, sizeof(udpSocket));
 		otUdpOpen(instance, &udpSocket, NULL, NULL);
