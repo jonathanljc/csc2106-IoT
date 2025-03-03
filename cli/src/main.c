@@ -15,6 +15,7 @@
 #include <zephyr/usb/usb_device.h>
 
 static const char UDP_DEST_ADDR[] = "fd40:3477:6aa4:1:9da4:1bf2:475e:efe9";  // IPv6 Address of OTBR
+// fd34:3efd:9d7:1:b089:a484:57bd:518f // IPv6 Address of OTBR Jon
 
 static const uint16_t UDP_PORT = 1234;  // Choose a suitable UDP port
 
@@ -22,12 +23,22 @@ static char udpPayload[50];  // Payload to send over UDP
 
 void generateRandomPayload(void)
 {
-    float temp = 20.0 + (rand() % 1500) / 100.0;  // Random temperature between 20.0 and 35.0
-    float humid = 50.0 + (rand() % 5000) / 100.0; // Random humidity between 50.0 and 100.0
-	snprintf(udpPayload, sizeof(udpPayload), "Temp: 25, Humid: 50");
+    // float temp = 20.0 + (rand() % 1500) / 100.0;  // Random temperature between 20.0 and 35.0
+    // float humid = 50.0 + (rand() % 5000) / 100.0; // Random humidity between 50.0 and 100.0
+	// snprintf(udpPayload, sizeof(udpPayload), "Temp: 25, Humid: 50");
 
-	// TODO: make this randomise work (currently got error), but when have actual sensor, don't even need it
-	// snprintf(udpPayload, sizeof(udpPayload), "Temp: %.2f, Humid: %.2f", temp, humid);
+	// // TODO: make this randomise work (currently got error), but when have actual sensor, don't even need it
+	// // snprintf(udpPayload, sizeof(udpPayload), "Temp: %.2f, Humid: %.2f", temp, humid);
+	// Random temperature between 20.0 and 35.0
+
+	float temp = 20.0f + (rand() % 1500) / 100.0f;
+ 
+	// Random humidity between 50.0 and 100.0
+	float humid = 50.0f + (rand() % 5000) / 100.0f;
+
+	// Print them into udpPayload as floats with 2 decimal places
+	// This may trigger a "float to double promotion" warning, which is safe to ignore
+	snprintf(udpPayload, sizeof(udpPayload), "Temp: %.2f, Humid: %.2f", temp, humid);
 }
 
 static otInstance *instance;
@@ -52,7 +63,7 @@ void udpSend(otInstance *instance)
     }
 
     // Append the payload to the message
-    error = otMessageAppend(message, udpPayload, sizeof(udpPayload));
+    error = otMessageAppend(message, udpPayload, strlen(udpPayload));
     if (error != OT_ERROR_NONE)
     {
         LOG_ERR("Failed to append message: %d", error);
