@@ -123,7 +123,7 @@ sudo ot-ctl ipaddr         # List assigned IP addresses
     - Example: `ot udp send fd97:b3f:1a22:1:7ef1:9f0f:c300:f9fc 1234 'hello'`
 5. The message should be received in the OTBR netcat
 
-## **Installing applcations on OTBR Pi**
+## **Installing applications on OTBR Pi**
 1. Download the udp_to_mqtt.py from the repository
 2. Install, run and configure the Home Assistant container with Docker
     - Install docker with `sudo apt install docker.io`
@@ -148,6 +148,29 @@ sudo ot-ctl ipaddr         # List assigned IP addresses
 4. Run the `udp_to_mqtt.py` script
     - Would need to install `paho-mqtt` with `sudo apt install python3-paho-mqtt`
 5. Open a browser in another machine (WITHIN THE SAME NETWORK) and access the Home Assistant dashboard with `http://<PI IP>:8123`
+
+## **DHT-11 Sensor Set-Up**
+### step 1 (ideally to create your folder directory in your rpi-4 desktop for easier access):
+```bash
+mkdir dht_test
+cd dht_test
+python3 -m venv myenv
+ls -l
+source myenv/bin/activate
+python3 -m pip install adafruit-circuitpython-dht
+```
+### step 2:
+```bash
+nano dht_basic.py
+```
+- copy-paste DHT-11 code (change accordingly to your gpio you want to use in that default code is gpio-4)
+- ctr + o (to write into file)
+- ctr + x (to exit the file)
+
+### step 3:
+```bash
+python dht_basic.py
+```
 
 ## **Additional Resources**
 For more details, refer to the official OpenThread documentation:
