@@ -21,14 +21,13 @@ print("Listening")
 
 while True:
 	data, addr = sock.recvfrom(1024)
-	message = data.decode("utf-8").strip()
+	message = data.decode("utf-8", errors="ignore").strip()
 	print(f"Received from {addr}: {message}")
 	
 	match = re.search(r"Temp:\s(\d+).*Humid:\s*(\d+)", message)
 	if match:
-		# remove the + random when using actual sensor data
-		temp = int(match.group(1)) + random.randint(0, 10)
-		humid = int(match.group(2)) + random.randint(0, 50)
+		temp = float(match.group(1)) 
+		humid = float(match.group(2))
 
 		mqtt_payload = json.dumps({"temp": temp, "humid": humid})
 		print(f"Publishing: {mqtt_payload}")
