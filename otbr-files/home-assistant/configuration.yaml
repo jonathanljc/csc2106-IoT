@@ -1,4 +1,3 @@
-
 # Loads default set of integrations. Do not remove.
 default_config:
 
@@ -12,14 +11,58 @@ scene: !include scenes.yaml
 
 mqtt:
   sensor:
-    - name: "Thread Sensor Temp"
-      state_topic: "thread/sensor"
+    - name: "Thread Sensor 1 Temperature"
+      state_topic: "thread/sensor1"
       suggested_display_precision: 1
-      unit_of_measurement: "C"
+      unit_of_measurement: "°C"
       value_template: "{{ value_json.temp }}"
-    - name: "Thread Sensor Humidity"
-      state_topic: "thread/sensor"
+
+    - name: "Thread Sensor 1 Humidity"
+      state_topic: "thread/sensor1"
       unit_of_measurement: "%"
       value_template: "{{ value_json.humid }}"
-    - name: "Raw Thread Sensor MQTT"
-      state_topic: "thread/sensor"
+
+    - name: "Raw Thread Sensor 1 MQTT"
+      state_topic: "thread/sensor1"
+
+    - name: "Thread Sensor 2 Temperature"
+      state_topic: "thread/sensor2"
+      suggested_display_precision: 1
+      unit_of_measurement: "°C"
+      value_template: "{{ value_json.temp }}"
+
+    - name: "Thread Sensor 2 Humidity"
+      state_topic: "thread/sensor2"
+      unit_of_measurement: "%"
+      value_template: "{{ value_json.humid }}"
+
+    - name: "Raw Thread Sensor 2 MQTT"
+      state_topic: "thread/sensor2"
+
+    - name: "Thread Sensor 3 Temperature"
+      state_topic: "thread/sensor3"
+      suggested_display_precision: 1
+      unit_of_measurement: "°C"
+      value_template: "{{ value_json.temp }}"
+
+    - name: "Thread Sensor 3 Humidity"
+      state_topic: "thread/sensor3"
+      unit_of_measurement: "%"
+      value_template: "{{ value_json.humid }}"
+
+    - name: "Raw Thread Sensor 3 MQTT"
+      state_topic: "thread/sensor3"
+
+    - name: "Thread Sensor 4 Temperature"
+      state_topic: "thread/sensor4"
+      suggested_display_precision: 1
+      unit_of_measurement: "°C"
+      value_template: "{{ value_json.temp }}"
+
+    - name: "Thread Sensor 4 Humidity"
+      state_topic: "thread/sensor4"
+      unit_of_measurement: "%"
+      value_template: "{{ value_json.humid }}"
+
+    - name: "Raw Thread Sensor 4 MQTT"
+      state_topic: "thread/sensor4"
