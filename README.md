@@ -172,6 +172,12 @@ nano dht_basic.py
 python dht_basic.py
 ```
 
+## **IR-TX to IR-RX**
+- Now the dongle nrf52840 is **configured** with both **BLE + Thread** capabilities. But need to try the whole flow to see it works as a whole.
+- Current flow is basically from nrf52840 dongle BLE protocol -> Send notification message "Triggered".
+- M5stick(IR Tx) node which is **configured** with BLE receive the notification message "Trigger" -> Trigger IR to send signal (Encode signal "0x20DF10EF" 32bit)
+- M5stick(IR Rx) node which is **not configured** with BLE recieve the signal and decode the message -> Turn on motor (Decode signal == Encode signal)
+
 ## **Additional Resources**
 For more details, refer to the official OpenThread documentation:
 [OpenThread Border Router Setup Guide](https://openthread.io/codelabs/openthread-border-router#5)
