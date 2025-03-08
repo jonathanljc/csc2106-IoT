@@ -14,6 +14,7 @@
  #include <zephyr/drivers/uart.h>
  #include <zephyr/usb/usb_device.h>
  #include <openthread/instance.h>
+ #include "ble.h"
  
  LOG_MODULE_REGISTER(cli_sample, CONFIG_OT_COMMAND_LINE_INTERFACE_LOG_LEVEL);
  
@@ -76,7 +77,11 @@
  }
  
  void main(void) {
-	 LOG_INF("Thread UDP Sender Ready");
+	 LOG_INF("Thread UDP Sender + BLE starting...");
+
+    	/* Initialize BLE (from ble.c/ble.h) */
+    	ble_enable();  
+    	LOG_INF("BLE initialized and advertising...");
  
 	 if (!device_is_ready(uart_dev)) {
 		 LOG_ERR("UART device not ready");
@@ -113,6 +118,9 @@
  
 	 LOG_INF("Waiting for UART data...");
 	 while (1) {
+		 /* Trigger a notification with a test message */
+        	trigger_notification("Triggered");
+        	printk("Test notification sent.\n");
 		 k_sleep(K_MSEC(1000));
 	 }
  }
