@@ -16,6 +16,7 @@
 /** @brief Initialize BLE.
  */
 void ble_enable(void);
+void trigger_notification(const char *msg);
 
 #endif
 
