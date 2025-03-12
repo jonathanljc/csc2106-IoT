@@ -55,7 +55,7 @@
 		 otMessageFree(message);
 	 } else {
 		 LOG_INF("UDP message sent: %s", udpPayload);
-		 memset(udpPayload, 0, 50);
+		 memset(udpPayload, 0, sizeof(udpPayload));  // Clear buffer after sending
 	 }
  }
  
@@ -68,7 +68,14 @@
 		 if (c == '\n' || idx >= sizeof(udpPayload) - 1) {
 			 udpPayload[idx] = '\0';
 			 LOG_INF("Received UART data: %s", udpPayload);
-			 udpSend();
+ 
+			 // Check if the message is "FAN"
+			 if (strcmp(udpPayload, "FAN") == 0) {
+				 LOG_INF("Triggering notification for FAN");
+				 trigger_notification("Triggered");
+			 } else {
+				 udpSend();
+			 }
 			 idx = 0;
 		 } else {
 			 udpPayload[idx++] = c;
@@ -78,10 +85,10 @@
  
  void main(void) {
 	 LOG_INF("Thread UDP Sender + BLE starting...");
-
-    	/* Initialize BLE (from ble.c/ble.h) */
-    	ble_enable();  
-    	LOG_INF("BLE initialized and advertising...");
+ 
+	 /* Initialize BLE (from ble.c/ble.h) */
+	 ble_enable();
+	 LOG_INF("BLE initialized and advertising...");
  
 	 if (!device_is_ready(uart_dev)) {
 		 LOG_ERR("UART device not ready");
@@ -118,9 +125,6 @@
  
 	 LOG_INF("Waiting for UART data...");
 	 while (1) {
-		 /* Trigger a notification with a test message */
-        	trigger_notification("Triggered");
-        	printk("Test notification sent.\n");
 		 k_sleep(K_MSEC(1000));
 	 }
  }
