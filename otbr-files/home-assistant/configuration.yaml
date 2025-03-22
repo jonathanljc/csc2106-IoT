@@ -10,6 +10,14 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 mqtt:
+  button:
+    unique_id: fan_switch_btn
+    name: "Fan 1 Switch"
+    command_topic: "thread/sensorExample"
+    payload_press: "FAN"
+    qos: 0
+    retain: false
+  
   sensor:
     - name: "Thread Sensor 1 Temperature"
       state_topic: "thread/sensor1"
@@ -66,3 +74,4 @@ mqtt:
 
     - name: "Raw Thread Sensor 4 MQTT"
       state_topic: "thread/sensor4"
+
