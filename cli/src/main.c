@@ -97,8 +97,8 @@
 	 }
 	 
 	 // Enable UART (COMMENT THESE 2 LINES OUT WHEN SETTING UP THREAD, THEN REFLASH UNCOMMENTED AFTER SET UP)
-	 uart_irq_callback_user_data_set(uart_dev, uart_cb, NULL);
-	 uart_irq_rx_enable(uart_dev);
+	//  uart_irq_callback_user_data_set(uart_dev, uart_cb, NULL);
+	//  uart_irq_rx_enable(uart_dev);
  
 	 instance = otInstanceInitSingle();
 	 if (instance == NULL) {

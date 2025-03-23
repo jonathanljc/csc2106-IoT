@@ -8,7 +8,8 @@ import paho.mqtt.client as mqtt
 sensor = adafruit_dht.DHT11(board.D4)
 ser = serial.Serial('/dev/ttyACM0', 115200, timeout=1)
 
-MQTT_BROKER = "192.168.50.11"
+# MQTT Subscribing (comment out if it is not the BLE device)
+MQTT_BROKER = "192.168.51.178"
 SUBSCRIBE_TOPIC = "thread/sensorExample"
 
 def on_message(client, userdata, msg):
@@ -25,6 +26,7 @@ client.on_message = on_message
 client.connect(MQTT_BROKER, 1883, 60)
 client.subscribe(SUBSCRIBE_TOPIC)
 client.loop_start()
+# End of MQTT Subscribing
 
 while True:
     try:
