@@ -87,6 +87,7 @@
 	 LOG_INF("Thread UDP Sender + BLE starting...");
  
 	 /* Initialize BLE (from ble.c/ble.h) */
+	 // COMMENT THESE 2 LINES OUT FOR THOSE NOT USING BLE
 	 ble_enable();
 	 LOG_INF("BLE initialized and advertising...");
  
@@ -94,7 +95,8 @@
 		 LOG_ERR("UART device not ready");
 		 return;
 	 }
- 
+	 
+	 // Enable UART (COMMENT THESE 2 LINES OUT WHEN SETTING UP THREAD, THEN REFLASH UNCOMMENTED AFTER SET UP)
 	 uart_irq_callback_user_data_set(uart_dev, uart_cb, NULL);
 	 uart_irq_rx_enable(uart_dev);
  

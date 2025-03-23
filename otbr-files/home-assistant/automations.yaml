@@ -1,0 +1,78 @@
+- id: '1742721786745'
+  alias: NEA Weather Notification
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.nea_temperature
+    above: 30
+    trigger: numeric_state
+  actions:
+  - data:
+      title: Weather Alert
+      message: The temperature outside has exceeded 30°C!
+    action: notify.mobile_app_sm_s938b
+  mode: single
+- id: '1742724096863'
+  alias: Sensor 1 Temp Notification
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.thread_sensor_1_temperature
+    above: 30
+  conditions: []
+  actions:
+  - device_id: b188eb81937625242d69e7d19b748089
+    domain: mobile_app
+    type: notify
+    message: Sensor 1 temperature is above 30 degrees
+    title: Sensor 1 Temperature Alert
+  mode: single
+- id: '1742724310855'
+  alias: Sensor 2 Temp
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.thread_sensor_2_temperature
+    above: 30
+  conditions: []
+  actions:
+  - device_id: b188eb81937625242d69e7d19b748089
+    domain: mobile_app
+    type: notify
+    message: Sensor 2 temperature is above 30 degrees
+    title: Sensor 2 Temperature Alert
+  mode: single
+- id: '1742724332929'
+  alias: Sensor 3 Temp Temperature
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.thread_sensor_3_temperature
+    above: 30
+  conditions: []
+  actions:
+  - device_id: b188eb81937625242d69e7d19b748089
+    domain: mobile_app
+    type: notify
+    message: Sensor 3 temperature is above 30 degrees
+    title: Sensor 3 Temperature Alert
+  mode: single
+- id: '1742724351419'
+  alias: Sensor 4 Temp
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.thread_sensor_4_temperature
+    above: 30
+  conditions: []
+  actions:
+  - device_id: b188eb81937625242d69e7d19b748089
+    domain: mobile_app
+    type: notify
+    message: Sensor 4 temperature is above 30 degrees
+    title: Sensor 4 Temperature Alert
+  mode: single

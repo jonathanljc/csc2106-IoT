@@ -9,6 +9,16 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
+rest:
+  resource: "http://api-open.data.gov.sg/v2/real-time/api/air-temperature"
+  scan_interval: 60
+  sensor:
+    - name: "NEA Temperature"
+      value_template: "{{ value_json['data']['readings'][0]['data'][0]['value'] }}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+
 mqtt:
   button:
     unique_id: fan_switch_btn
@@ -74,4 +84,3 @@ mqtt:
 
     - name: "Raw Thread Sensor 4 MQTT"
       state_topic: "thread/sensor4"
-
