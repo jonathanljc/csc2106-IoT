@@ -36,10 +36,13 @@ while True:
         humidity = sensor.humidity
         
         # Create a timestamp string
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
         
         # Format sensor data with timestamp
-        sensor_data = f"{timestamp} - Temp: {temperature_c}°C, Humid: {humidity}%"
+        print(timestamp)
+        sensor_data = f"Temp: {temperature_c}°C, Humid: {humidity}%"
         print(sensor_data)
         
         # Send sensor data over serial
