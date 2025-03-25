@@ -3,6 +3,7 @@ import time
 import board
 import adafruit_dht
 import paho.mqtt.client as mqtt
+from datetime import datetime  # Import datetime module
 
 # Sensor data pin is connected to GPIO 4
 sensor = adafruit_dht.DHT11(board.D4)
@@ -33,7 +34,12 @@ while True:
         # Read sensor values
         temperature_c = sensor.temperature
         humidity = sensor.humidity
-        sensor_data = f"Temp: {temperature_c}, Humid: {humidity}"
+        
+        # Create a timestamp string
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Format sensor data with timestamp
+        sensor_data = f"{timestamp} - Temp: {temperature_c}°C, Humid: {humidity}%"
         print(sensor_data)
         
         # Send sensor data over serial

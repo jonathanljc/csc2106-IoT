@@ -158,6 +158,7 @@ python3 -m venv myenv
 ls -l
 source myenv/bin/activate
 python3 -m pip install adafruit-circuitpython-dht
+pip install paho-mqtt
 ```
 ### step 2:
 ```bash
