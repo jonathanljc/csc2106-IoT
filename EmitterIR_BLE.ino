@@ -23,14 +23,21 @@ static const uint16_t IR_BITS   = 32;
 IRsend irsend(kIrLedPin);
 
 // BLE globals
-static BLEAddress* pServerAddress      = nullptr;
-static bool doConnect                  = false;
-static bool connected                  = false;
-static BLEClient* pClient             = nullptr;
+static BLEAddress* pServerAddress = nullptr;
+static bool doConnect             = false;
+static bool connected             = false;
+static BLEClient* pClient         = nullptr;
 static BLERemoteCharacteristic* pRemoteCharacteristic = nullptr;
 
 // A flag indicating that we need to send IR (set in notify callback)
 static bool needToSendIR = false;
+
+// Helper function to update the LCD display with a single message in landscape mode.
+void updateDisplay(const String &msg) {
+  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.setCursor(10, 20);
+  M5.Lcd.print(msg);
+}
 
 // Callback for BLE scanning
 class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks {
@@ -118,6 +125,13 @@ void setup() {
 
   M5.begin(); // Initialize M5StickC Plus hardware
   Serial.begin(115200);
+  
+  // Initialize the LCD in landscape mode.
+  M5.Lcd.begin();
+  M5.Lcd.setRotation(1);  // Set to landscape orientation.
+  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.setTextSize(3);
+  
   delay(1000);
   Serial.println("Starting BLE Client on M5StickC Plus with IR transmission...");
 
@@ -141,6 +155,7 @@ void loop() {
     if (connectToServer(*pServerAddress)) {
       Serial.println("Connected to BLE server.");
       connected = true;
+      updateDisplay("BLE connected");
     } else {
       Serial.println("Connection failed. Restarting scan...");
       BLEDevice::getScan()->start(30, false);
@@ -156,7 +171,8 @@ void loop() {
   // Check if we need to send IR:
   if (needToSendIR) {
     Serial.println("Preparing to send IR code...");
-
+    updateDisplay("transmitting");
+    
     // Optionally pause or stop scanning to reduce CPU load interference
     BLEDevice::getScan()->stop();
     Serial.println("BLE scanning stopped briefly for IR transmission.");
@@ -173,6 +189,10 @@ void loop() {
     if (!connected) {
       Serial.println("Resuming BLE scanning...");
       BLEDevice::getScan()->start(30, false);
+    }
+    // After transmitting, revert display to "BLE connected" if still connected.
+    if (connected) {
+      updateDisplay("BLE connected");
     }
 
     needToSendIR = false;
