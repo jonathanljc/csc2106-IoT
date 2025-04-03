@@ -10,6 +10,7 @@
 // Define the relay control pin and the delay for how long the relay stays on.
 #define RELAY_PIN 25
 #define RELAY_ON_MS 10000  // 10 seconds
+bool fan_status=false;
 
 IRrecv irrecv(IR_RECV_PIN);
 decode_results results;
@@ -40,13 +41,17 @@ void loop() {
     
     // Check if the decoded value matches our expected NEC code
     if (results.value == IR_EXPECTED_CODE) {
-      Serial.println("Matching IR signal detected! Turning relay ON...");
-      digitalWrite(RELAY_PIN, HIGH);  // Turn the relay on
+      if(fan_status==false){
+        Serial.println("Matching IR signal detected! Turning relay ON...");
+        digitalWrite(RELAY_PIN, HIGH);
+        fan_status = true;
+      }else{
+      Serial.println("Matching IR signal detected! Turning relay OFF...");
+      digitalWrite(RELAY_PIN, LOW);  // Turn the relay on
+        fan_status = false;
+      }
       
-      // Keep the relay on for a set period, then turn it off.
-      delay(RELAY_ON_MS);
-      digitalWrite(RELAY_PIN, LOW);
-      Serial.println("Relay turned OFF.");
+      
     }
     
     // Prepare for the next IR signal
