@@ -19,6 +19,12 @@ This guide outlines the steps to set up an **OpenThread Border Router (OTBR)** o
     - Verify your installation by clicking the clicking the dropdown menu beside the SDK, click "Open Bash" and run `west --version`
 
 ### **Step 2: Building the CLI and Coprocessor applications**
+**Note:** The CLI file has been modified to receive Temperature Data via UART and BLE protocol. The original CLI file can be obtained via the samples code provided by Nordic itself.
+See image below for example:
+![image](https://github.com/user-attachments/assets/191048bf-00dc-400c-a424-dad3670ea05e)
+
+**Otherwise Modified CLI:**
+
 1. Clone this repository and open it in VSCode
 2. Open the nRF Connect extension on the left, there should be 2 applications (cli and coprocessor) under the "Applications" menu
 3. In this "Applications" menu, select "+ Add Build configuration". A new screen will appear.
