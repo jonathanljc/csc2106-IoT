@@ -24,7 +24,7 @@ See image below for example:
 ![image](https://github.com/user-attachments/assets/191048bf-00dc-400c-a424-dad3670ea05e)
 
 - Alternatively, you can use the precompiled hex binary files (original, without modifications) prepared for both **CLI (edge device)** and **Co-Processor (OTBR)**:
-  - **merged.hex (Co-Processor) – flash this to the dongle(TBR) using nRF Connect for Desktop**
+  - **merged.hex (Co-Processor) – flash this to the dongle(OTBR) using nRF Connect for Desktop**
   - **zephyr.hex (CLI) – flash this to the dongle(edge device) using nRF Connect for Desktop**
   
 
