@@ -173,7 +173,7 @@ nano dht_basic.py
 python dht_basic.py
 ```
 
-## **IR-TX to IR-RX** d
+## **IR-TX to IR-RX**
 - Now the dongle nrf52840 is **configured** with both **BLE + Thread** capabilities. (ble configuration can be found under the csc2106-IoT/cli/src/ble.c folder directory path)
 - Current flow is basically from TBR -> MQTT client -> nrf52840 dongle BLE protocol -> Send notification message "Triggered".
 - M5stick(IR Tx) node which is **configured** with BLE receive the notification message "Trigger" -> Trigger IR to send signal (Encode signal "0x20DF10EF" 32bit)
