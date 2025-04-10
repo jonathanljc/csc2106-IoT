@@ -187,5 +187,6 @@ python dht_basic.py
 
 ## **Additional Resources**
 For more details, refer to the official OpenThread documentation:
-[OpenThread Border Router Setup Guide](https://openthread.io/codelabs/openthread-border-router#5)
-[Thread Tools Nordic Docs](https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/protocols/thread/tools.html#configuring-a-radio-co-processor)
+- [OpenThread Border Router Setup Guide](https://openthread.io/codelabs/openthread-border-router#5)
+- [Thread Tools Nordic Docs](https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/protocols/thread/tools.html#configuring-a-radio-co-processor)
+- [Thread UDP API](https://openthread.io/reference/group/api-udp)
